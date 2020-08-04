@@ -1,27 +1,33 @@
-var configuration = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    },
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: {y: 500}
-        }
-    }
-}
-
-const game = new Phaser.Game(configuration);
+var jeu = {
+    world: world,
+    player: player,
+    scene: null,
+};
 
 function preload() {
+
+    // Sauvegarde de la scène
+    jeu.scene = this;
+
+    // Pré-chargement des images
+    jeu.scene.load.image('tiles', directoryImages + 'tilesheet.png');
+
+    // Pré-chargement de la carte
+    jeu.scene.load.tilemapTiledJSON('map', directoryJSON + 'map.json');
+
+    // Pré-chargement des images du joueur
+    jeu.scene.load.atlas('player', directoryImages + 'player.png', directoryJSON + 'playerAtlas.json');
 
 }
 
 function create() {
+
+    // Initialisation du monde
+    jeu.world.initialiserWorld();
+
+    // Initialisation du personnage
+    jeu.player.initialiserPlayer();
+    jeu.player.generatePlayerAnimations();
 
 }
 
