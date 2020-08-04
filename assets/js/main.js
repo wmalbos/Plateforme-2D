@@ -1,7 +1,8 @@
 var jeu = {
+    scene: null,
     world: world,
     player: player,
-    scene: null,
+    cursor: null
 };
 
 function preload() {
@@ -29,8 +30,18 @@ function create() {
     jeu.player.initialiserPlayer();
     jeu.player.generatePlayerAnimations();
 
+
+    // Gestion des collisions
+    jeu.world.generateCollider();
+
+    // Récupération des curseurs
+    jeu.cursor = jeu.scene.input.keyboard.createCursorKeys();
+
+    // Gestion de la caméra
+    jeu.world.manageCamera();
 }
 
 function update(time, delta) {
 
+    jeu.player.manageMoves();
 }

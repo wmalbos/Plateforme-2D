@@ -1,9 +1,11 @@
 var player = {
 
     aPlayer: null,
+    isJumping: false,
 
     initialiserPlayer: function () {
-        this.aPlayer = jeu.scene.add.sprite(200, 200, 'player', 'adventurer_stand');
+        this.aPlayer = jeu.scene.physics.add.sprite(200, 200, 'player', 'adventurer_stand');
+        this.aPlayer.setCollideWorldBounds(true);
     },
 
     generatePlayerAnimations: function () {
@@ -15,6 +17,62 @@ var player = {
             repeat: -1
         });
 
+        jeu.scene.anims.create({
+            key: 'playerIdle',
+            frames: [
+                {key: "player", frame: 'adventurer_stand'},
+                {key: "player", frame: 'adventurer_idle'},
+            ],
+            frameRate: 2,
+            repeat: -1
+        });
+
+    },
+
+    manageMoves: function () {
+
+        if (jeu.cursor.left.isDown) {
+
+            this.aPlayer.setVelocityX(-200);
+
+        } else if (jeu.cursor.right.isDown) {
+
+            this.aPlayer.setVelocityX(200);
+
+        } else {
+            this.aPlayer.setVelocityX(0);
+        }
+
+        if (jeu.cursor.up.isDown && this.aPlayer.body.onFloor()) {
+            this.aPlayer.setVelocityY(-350);
+        }
+
+        if (this.aPlayer.body.onFloor()) {
+            this.isJumping = false;
+        } else {
+            this.isJumping = true;
+        }
+
+
+        if (this.isJumping) {
+            this.aPlayer.setTexture('player', 'adventurer_jump');
+        } else {
+
+            if (jeu.cursor.left.isDown) {
+
+                this.aPlayer.anims.play('playerWalk', true);
+                this.aPlayer.setFlip(true, false);
+
+            } else if (jeu.cursor.right.isDown) {
+
+                this.aPlayer.anims.play('playerWalk', true);
+                this.aPlayer.setFlip(false, false);
+
+            } else {
+
+                this.aPlayer.anims.play('playerIdle', true);
+            }
+        }
     }
 
 };
