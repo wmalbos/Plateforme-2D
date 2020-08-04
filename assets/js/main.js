@@ -44,4 +44,26 @@ function create() {
 function update(time, delta) {
 
     jeu.player.manageMoves();
+
+    adjustScreenSize();
+}
+
+
+function adjustScreenSize() {
+
+    var canvas = document.querySelector("canvas");
+
+    var screenWidth = window.innerWidth;
+    var screenHeight = window.innerHeight;
+    var screenRatio = screenWidth / screenHeight;
+
+    var gameRatio = configuration.width / configuration.height;
+
+    if (screenRatio < gameRatio) {
+        canvas.style.width = screenWidth + 'px';
+        canvas.style.height = (screenWidth / gameRatio) + 'px';
+    } else {
+        canvas.style.width = ( screenHeight * gameRatio ) + 'px';
+        canvas.style.height =  screenHeight + 'px';
+    }
 }
