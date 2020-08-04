@@ -18,5 +18,6 @@ var configuration = {
 
 var directoryImages = 'assets/media/images/';
 var directoryJSON = 'assets/json/';
+var directorySounds = 'assets/media/sounds/';
 
 const game = new Phaser.Game(configuration);

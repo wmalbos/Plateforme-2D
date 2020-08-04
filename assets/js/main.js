@@ -5,6 +5,12 @@ var jeu = {
     cursor: null
 };
 
+
+var sounds = {
+    'gemmeCollected': null
+}
+
+
 function preload() {
 
     // Sauvegarde de la scène
@@ -12,12 +18,19 @@ function preload() {
 
     // Pré-chargement des images
     jeu.scene.load.image('tiles', directoryImages + 'tilesheet.png');
+    jeu.scene.load.image('spark', directoryImages + 'particle.png');
+
+    jeu.scene.load.image('validation', directoryImages + 'yellow_boxCheckmark.png');
+    jeu.scene.load.image('panel', directoryImages + 'yellow_panel.png');
 
     // Pré-chargement de la carte
     jeu.scene.load.tilemapTiledJSON('map', directoryJSON + 'map.json');
 
     // Pré-chargement des images du joueur
     jeu.scene.load.atlas('player', directoryImages + 'player.png', directoryJSON + 'playerAtlas.json');
+
+    // Pré-chargement des sons
+    jeu.scene.load.audio("gemmeSound", directorySounds + 'gemmeSound.ogg')
 
 }
 
@@ -63,7 +76,7 @@ function adjustScreenSize() {
         canvas.style.width = screenWidth + 'px';
         canvas.style.height = (screenWidth / gameRatio) + 'px';
     } else {
-        canvas.style.width = ( screenHeight * gameRatio ) + 'px';
-        canvas.style.height =  screenHeight + 'px';
+        canvas.style.width = (screenHeight * gameRatio) + 'px';
+        canvas.style.height = screenHeight + 'px';
     }
 }
