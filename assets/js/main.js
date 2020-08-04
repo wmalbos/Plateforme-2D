@@ -2,7 +2,8 @@ var jeu = {
     scene: null,
     world: world,
     player: player,
-    cursor: null
+    cursor: null,
+    zombie : zombie,
 };
 
 
@@ -30,7 +31,10 @@ function preload() {
     jeu.scene.load.atlas('player', directoryImages + 'player.png', directoryJSON + 'playerAtlas.json');
 
     // Pré-chargement des sons
-    jeu.scene.load.audio("gemmeSound", directorySounds + 'gemmeSound.ogg')
+    jeu.scene.load.audio("gemmeSound", directorySounds + 'gemmeSound.ogg');
+
+    // Pré-chargement des zombies
+    jeu.scene.load.atlas('zombie', directoryImages + 'zombie.png', directoryJSON + 'zombieAtlas.json');
 
 }
 
@@ -43,6 +47,10 @@ function create() {
     jeu.player.initialiserPlayer();
     jeu.player.generatePlayerAnimations();
 
+    // Initialisation des zombies
+    jeu.zombie.createZombie();
+    jeu.zombie.generate2ombieAnimations();
+    jeu.zombie.manageMoves();
 
     // Gestion des collisions
     jeu.world.generateCollider();

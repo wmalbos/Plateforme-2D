@@ -10,6 +10,9 @@ var world = {
     positionStart: null,
     positionEnd: null,
 
+
+    debutZombie1 : null,
+
     score: 0,
     scoreText: null,
 
@@ -26,14 +29,17 @@ var world = {
 
         this.overlapLayer = this.tilemap.createDynamicLayer("overlap", this.tileset, 0, 0);
 
-
         this.positionStart = this.tilemap.findObject('Objects', obj => obj.name === 'debut');
+        this.debutZombie1 = this.tilemap.findObject('Objects', obj => obj.name === 'debutzombie1');
+
         this.worldLayer.setCollisionByProperty({Collides: true});
 
         jeu.scene.physics.world.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
 
         this.overlapLayer.setTileIndexCallback(50, this.collectGemme, this);
         this.overlapLayer.setTileIndexCallback(53, this.collectGemme, this);
+
+
 
 
         var policeTitre = {
@@ -44,7 +50,6 @@ var world = {
 
         this.scoreText = jeu.scene.add.text(16, 16, "Score : 0", policeTitre);
         this.scoreText.setScrollFactor(0);
-
 
 
         jeu.player.isAlive = true;
@@ -59,6 +64,9 @@ var world = {
 
         jeu.scene.physics.add.collider(jeu.player.aPlayer, this.worldLayer);
         jeu.scene.physics.add.overlap(jeu.player.aPlayer, this.overlapLayer);
+
+        jeu.scene.physics.add.collider(jeu.zombie.aZombie, this.worldLayer);
+        jeu.scene.physics.add.overlap(jeu.zombie.aZombie, jeu.player.aPlayer, this.attackZombie);
     },
 
     manageCamera: function () {
@@ -130,6 +138,14 @@ var world = {
                     jeu.scene.scene.restart();
             });
         }
-    }
+    },
 
+    attackZombie : function() {
+
+        if(jeu.player.isJumping){
+            jeu.zombie.killZombie();
+        }else {
+            jeu.world.killPlayer();
+        }
+    }
 };
